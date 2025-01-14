@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Foundation\Application;
+use Illuminate\Auth\Events\Registered;
 
 class UserService
 {
