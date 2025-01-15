@@ -9,24 +9,20 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Log;
 
 class UserService
 {
     /**
      * @param array $data
-     * @return Application|RedirectResponse|Redirector
+     * @return mixed
      */
-    public function createUser(array $data): Application|Redirector|RedirectResponse
+    public function createUser(array $data): mixed
     {
-        $user = User::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-        return redirect()->route('dashboard');
     }
 }
