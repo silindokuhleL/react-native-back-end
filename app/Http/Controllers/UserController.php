@@ -8,21 +8,41 @@ use App\Services\UserService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\CreateUserRequest;
-
+use Illuminate\Validation\ValidationException;
 class UserController extends Controller
 {
     /**
-     * @param Request $request
+     * @param CreateUserRequest $request
      * @param UserService $service
      * @return Response
      * */
     public function store(Request $request, UserService $service): Response
     {
         try {
-            return $this->json($service->createUser($request->all())->toArray());
-        } catch (\Exception $ex) {
 
+            $result = $service->createUser($request->all());
+
+            return $this->json($result->toArray());
+        } catch (\Exception $ex) {
+            Log::error('UserController.store failed', [
+                'exception' => $ex->getMessage(),
+                'trace' => $ex->getTraceAsString(),
+                'request_data' => $request->all()
+            ]);
             return $this->jsonServerError($ex->getMessage());
         }
+    }
+
+    public function login(Request $request){
+
+        Log::info('User login attempt', ['email' => $request->email]);
+        $user = User::where('email', 'tesdtessd@gmail.com')->first();
+
+        if(!$user){
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+        return $this->json($user->toArray());
     }
 }
