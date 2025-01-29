@@ -44,6 +44,6 @@ class UserController extends Controller
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-        return $this->json($user->toArray());
+        return $this->json(['token' => $user->createToken('api-token')->plainTextToken]);
     }
 }
