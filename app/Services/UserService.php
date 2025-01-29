@@ -24,7 +24,6 @@ class UserService
 
         event(new Registered($user));
 
-        // Create token and return both user and token
         $token = $user->createToken('api-token')->plainTextToken;
         return ['token' => $token];
     }
