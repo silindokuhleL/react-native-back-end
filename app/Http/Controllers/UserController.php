@@ -8,7 +8,7 @@ use App\Services\UserService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Validation\ValidationException;
 class UserController extends Controller
 {
@@ -34,7 +34,7 @@ class UserController extends Controller
         }
     }
 
-    public function login(Request $request){
+    public function login(LoginRequest $request){
 
         Log::info('User login attempt', ['email' => $request->email]);
         $user = User::where('email', $request->email )->first();
