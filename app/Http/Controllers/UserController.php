@@ -20,10 +20,8 @@ class UserController extends Controller
     public function store(Request $request, UserService $service): Response
     {
         try {
-
             $result = $service->createUser($request->all());
-
-            return $this->json($result->toArray());
+            return $this->json($result);  // Remove toArray() call since $result is already an array
         } catch (\Exception $ex) {
             Log::error('UserController.store failed', [
                 'exception' => $ex->getMessage(),
