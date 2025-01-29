@@ -13,15 +13,15 @@ use Illuminate\Validation\ValidationException;
 class UserController extends Controller
 {
     /**
-     * @param CreateUserRequest $request
+     * @param Request $request
      * @param UserService $service
      * @return Response
-     * */
+     */
     public function store(Request $request, UserService $service): Response
     {
         try {
             $result = $service->createUser($request->all());
-            return $this->json($result);  // Remove toArray() call since $result is already an array
+            return $this->json($result);
         } catch (\Exception $ex) {
             Log::error('UserController.store failed', [
                 'exception' => $ex->getMessage(),
@@ -32,7 +32,13 @@ class UserController extends Controller
         }
     }
 
-    public function login(LoginRequest $request){
+    /**
+     * @param LoginRequest $request
+     * @return Response
+     * @throws ValidationException
+     */
+    public function login(LoginRequest $request): Response
+    {
 
         Log::info('User login attempt', ['email' => $request->email]);
         $user = User::where('email', $request->email )->first();
@@ -46,9 +52,10 @@ class UserController extends Controller
     }
 
     /**
-     * Destroy an authenticated session.
+     * @param Request $request
+     * @return Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request): Response
     {
         $request->user()->currentAccessToken()->delete();
         return response()->noContent();

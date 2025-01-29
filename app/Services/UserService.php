@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Log;
 class UserService
 {
 
-    public function createUser(array $data)
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function createUser(array $data): array
     {
         $user = User::create([
             'name' => $data['name'],
@@ -19,7 +23,7 @@ class UserService
         ]);
 
         event(new Registered($user));
-        
+
         // Create token and return both user and token
         $token = $user->createToken('api-token')->plainTextToken;
         return ['token' => $token];
