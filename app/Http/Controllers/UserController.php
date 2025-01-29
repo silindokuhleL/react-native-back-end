@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\UserService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CreateUserRequest;
 use Illuminate\Validation\ValidationException;
 class UserController extends Controller
@@ -36,9 +37,9 @@ class UserController extends Controller
     public function login(Request $request){
 
         Log::info('User login attempt', ['email' => $request->email]);
-        $user = User::where('email', 'tesdtessd@gmail.com')->first();
+        $user = User::where('email', $request->email )->first();
 
-        if(!$user){
+        if(!$user || !hash::check($request->password, $user->password)){
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
