@@ -46,4 +46,13 @@ class UserController extends Controller
         }
         return $this->json(['token' => $user->createToken('api-token')->plainTextToken]);
     }
+
+    /**
+     * Destroy an authenticated session.
+     */
+    public function destroy(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->noContent();
+    }
 }
