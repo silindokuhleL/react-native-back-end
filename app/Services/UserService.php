@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
+use App\RoleEnum;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Log;
 
 class UserService
 {
@@ -21,6 +22,13 @@ class UserService
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $role = Role::where('name', RoleEnum::ADMIN->value)
+            ->first();
+
+        if ($role) {
+            $user->assignRole($role);
+        }
 
         event(new Registered($user));
 
