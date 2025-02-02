@@ -23,8 +23,13 @@ class UserService
             'password' => Hash::make($data['password']),
         ]);
 
-        $role = Role::where('name', RoleEnum::ADMIN->value)
-            ->first();
+        $roleName = $data['role'] ?? RoleEnum::CUSTOMER->value;
+
+        if (!in_array($roleName, array_column(RoleEnum::cases(), 'value'))) {
+            $roleName = RoleEnum::CUSTOMER->value;
+        }
+
+        $role = Role::where('name', $roleName)->first();
 
         if ($role) {
             $user->assignRole($role);
@@ -33,6 +38,14 @@ class UserService
         event(new Registered($user));
 
         $token = $user->createToken('api-token')->plainTextToken;
-        return ['token' => $token];
+        return [
+            'token' => $token,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $roleName
+            ]
+        ];
     }
 }
