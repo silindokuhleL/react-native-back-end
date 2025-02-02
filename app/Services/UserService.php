@@ -48,4 +48,17 @@ class UserService
             ]
         ];
     }
+
+    /**
+     * @param User $user
+     * @param array $data
+     * @return void
+     */
+    public function updateUser(User $user, array $data): void
+    {
+        $user->update([
+            'name' => $data['name'],
+            'email' => $data['email'],
+        ]);
+    }
 }

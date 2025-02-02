@@ -60,4 +60,24 @@ class UserController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->noContent();
     }
+
+    /**
+     * @param Request $request
+     * @param UserService $service
+     * @return Response
+     */
+    public function update(Request $request, UserService $service): Response
+    {
+        try {
+            $result = $service->updateUser($request->user(), $request->all());
+            return $this->jsonSuccess('User updated successfully');
+        } catch (\Exception $ex) {
+            Log::error('UserController.update failed', [
+                'exception' => $ex->getMessage(),
+                'trace' => $ex->getTraceAsString(),
+                'request_data' => $request->all()
+            ]);
+            return $this->jsonServerError($ex->getMessage());
+        }
+    }
 }

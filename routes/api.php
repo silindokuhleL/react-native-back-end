@@ -16,6 +16,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'email_verified_at' => $user->email_verified_at,
         ]);
     });
+    Route::put('/user/update', [UserController::class, 'update']);
     Route::post('/logout', [UserController::class, 'destroy']);
 });
 
