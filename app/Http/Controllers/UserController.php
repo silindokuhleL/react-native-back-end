@@ -69,7 +69,7 @@ class UserController extends Controller
     public function update(Request $request, UserService $service): Response
     {
         try {
-            $result = $service->updateUser($request->user(), $request->all());
+            $service->updateUser($request->user(), $request->all());
             return $this->jsonSuccess('User updated successfully');
         } catch (\Exception $ex) {
             Log::error('UserController.update failed', [
