@@ -12,4 +12,5 @@ enum RoleEnum: string
     case MARKETING_MANAGER = 'marketing_manager';
     case ACCOUNTANT = 'accountant';
     case CUSTOMER = 'customer';
+    case SERVICE_PROVIDER = 'service_provider';
 }

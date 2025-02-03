@@ -61,6 +61,12 @@ class UserRoleSeeder extends Seeder
                 'password' => 'password',
                 'role' => RoleEnum::CUSTOMER->value
             ],
+            [
+                'name' => 'Service Provider',
+                'email' => 'provider@gmail.com',
+                'password' => 'password',
+                'role' => RoleEnum::SERVICE_PROVIDER->value
+            ],
         ];
 
         foreach ($users as $userData) {
