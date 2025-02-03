@@ -62,5 +62,13 @@ class RolesAndPermissionsSeeder extends Seeder
             PermissionEnum::BOOK_APPOINTMENTS->value,
             PermissionEnum::VIEW_OWN_HISTORY->value,
         ]);
+
+        $serviceProviderRole = Role::create(['name' => RoleEnum::SERVICE_PROVIDER->value]);
+        $serviceProviderRole->givePermissionTo([
+            PermissionEnum::MANAGE_OWN_SERVICES->value,
+            PermissionEnum::VIEW_OWN_SCHEDULE->value,
+            PermissionEnum::UPDATE_SERVICE_STATUS->value,
+            PermissionEnum::VIEW_OWN_HISTORY->value,
+        ]);
     }
 }
